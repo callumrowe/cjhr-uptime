@@ -77,7 +77,7 @@ status-website:
 
 # Values passed through to the workflows from repository secrets.
 # NOTIFICATION_SLACK is the literal string "true"; the webhook URL points at
-# the dedicated uptime channel (#deck-uptime, the stack-wide uptime channel),
+# the stack-wide #uptime channel (renamed from #deck-uptime; the webhook survives),
 # kept separate from the sync, infra, backups and error channels so an outage
 # is never buried in, or muted with, anything else.
 secrets:
