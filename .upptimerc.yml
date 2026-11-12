@@ -1,21 +1,55 @@
 owner: callumrowe
 repo: deck-uptime
 
-# One site, and deliberately the health endpoint rather than the homepage.
+# Every site on the cjhr.dev stack, checked every five minutes from GitHub
+# Actions, *off* the Hetzner box. Everything else watching the stack (Deck's
+# signals worker and error reporter, the server's own server-health check) runs
+# on the host it is watching, so a dead host produces no alert, just silence.
+# This is the only signal whose absence cannot be mistaken for good news.
 #
-# `/healthz` runs a real `select 1` against Postgres instead of returning 200
-# for a booted process, so a check that passes from the public URL means the
-# whole chain a user depends on is genuinely up: Hetzner host, Docker, the
-# platform Caddy, the app, and the database. The app's own deploy gates on this
-# same endpoint for the same reason.
-#
-# The point of running it from here is that it runs *off* the box. Everything
-# else watching Deck — the signals worker, the error reporter — is a process on
-# the host it is watching, so a dead host produces no alert, just silence. This
-# is the only signal whose absence cannot be mistaken for good news.
+# Where an app has a real health endpoint (one that touches its database) we
+# check that rather than the homepage: Deck's `/healthz` runs `select 1` against
+# Postgres, Ki's and FTC's `/health` and Plausible's `/api/health` likewise
+# return 200 only when the app is actually serving. Single-page apps answer 200
+# for any path, so for those the homepage is the honest check. Deck keeps the
+# name "Deck" so its history (history/deck.yml) carries on.
 sites:
   - name: Deck
     url: https://deck.cjhr.dev/healthz
+  - name: Ki
+    url: https://ki.cjhr.dev/health
+  - name: Sweat
+    url: https://sweat.cjhr.dev
+  - name: FTC
+    url: https://ftc.cjhr.dev/health
+  - name: Casebook
+    url: https://casebook.cjhr.dev/login
+  - name: Feel
+    url: https://feel.cjhr.dev
+  - name: Sulky Kiwi
+    url: https://sulkykiwi.cjhr.dev
+  - name: Sulky Kiwi API
+    url: https://sulkykiwi-api.cjhr.dev
+  - name: Tiny Generals
+    url: https://tinygenerals.cjhr.dev
+  - name: Margeapalooza
+    url: https://margeapalooza.cjhr.dev
+  - name: Oskar's Missions
+    url: https://oskarsmissions.cjhr.dev
+  - name: Our Wedding
+    url: https://ourwedding.cjhr.dev
+  - name: Beyond Earth tools
+    url: https://beyondearth-tools.cjhr.dev
+  - name: Diagrams
+    url: https://diagrams.callums.work
+  - name: callums.work
+    url: https://callums.work
+  - name: becky.design
+    url: https://becky.design
+  - name: Flight website
+    url: https://getflightbrowser.com
+  - name: Analytics (Plausible)
+    url: https://analytics.cjhr.dev/api/health
 
 # Downtime opens an issue in this repository; it closes itself on recovery.
 assignees:
@@ -32,9 +66,9 @@ status-website:
   # in step with the custom domain configured on the repository's Pages
   # settings; the site build overwrites that branch on every run.
   cname: status.cjhr.dev
-  name: Deck Status
-  introTitle: "**Deck** — live status"
-  introMessage: Checked every five minutes from GitHub Actions, outside the server Deck runs on. Outages open an [issue](https://github.com/callumrowe/deck-uptime/issues) and post to Slack.
+  name: cjhr.dev Status
+  introTitle: "**cjhr.dev** — live status"
+  introMessage: Every app on the cjhr.dev stack, checked every five minutes from GitHub Actions, outside the server they run on. Outages open an [issue](https://github.com/callumrowe/deck-uptime/issues) and post to Slack.
   navbar:
     - title: Status
       href: /
@@ -43,9 +77,9 @@ status-website:
 
 # Values passed through to the workflows from repository secrets.
 # NOTIFICATION_SLACK is the literal string "true"; the webhook URL points at
-# Deck's dedicated uptime channel, kept separate from the sync, infra, backups
-# and error channels so an outage is never buried in, or muted with, anything
-# else.
+# the stack-wide #uptime channel (renamed from #deck-uptime; the webhook survives),
+# kept separate from the sync, infra, backups and error channels so an outage
+# is never buried in, or muted with, anything else.
 secrets:
   - NOTIFICATION_SLACK
   - NOTIFICATION_SLACK_WEBHOOK_URL
