@@ -1,4 +1,4 @@
-# Deck — uptime
+# cjhr.dev — uptime
 
 [![Uptime CI](https://github.com/callumrowe/deck-uptime/workflows/Uptime%20CI/badge.svg)](https://github.com/callumrowe/deck-uptime/actions/workflows/uptime.yml)
 [![Response Time CI](https://github.com/callumrowe/deck-uptime/workflows/Response%20Time%20CI/badge.svg)](https://github.com/callumrowe/deck-uptime/actions/workflows/response-time.yml)
