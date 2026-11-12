@@ -1,5 +1,5 @@
 owner: callumrowe
-repo: deck-uptime
+repo: cjhr-uptime
 
 # Every site on the cjhr.dev stack, checked every five minutes from GitHub
 # Actions, *off* the Hetzner box. Everything else watching the stack (Deck's
